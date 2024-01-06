@@ -1,0 +1,40 @@
+Design Ideas:
+
+Three components:
+Library Interface, needs to be agnostic to backend
+|->Autosorting binary tree for the Book entries, sorted by Barcode
+|	|-> Main search repository
+|->SQL option
+Linked list of UserIDs
+|-> Needed for determining who has what book
+Linked List of Book Count
+|-> Needed for search purposes
+|-> Sorted based on number of books, as the books we have the most of are most likely to be searched for
+
+Methodology:
+Create tree for all books
+Traverse tree to create table of Abstract Books x Number of Books
+|-> can be cut and replaced with a (slower) function if memory proves the greater constraint
+
+Types needed: 
+	Book: (Name x author x genre)
+	PhysBook: (Barcode x Book) 
+	Book Count: (Name x count x availible x list of Barcodes)
+	User: (UserId x Name x List of Barcodes)
+	AVL Tree: (Parent x Child[2] x BalanceFactor)
+	|-> Tree of Books
+	Abstract Linked List: (Body(void*) x Next(List*))
+	|-> List of Users
+	|-> List of Book Counts
+	|-> List of Barcodes
+
+Justification for use of AVL tree: This is a search heavy operation, and additions/removals will not be frequent, making AVL a more accurate fit for the task than red-black
+
+Functions:
+initTree() -> Sets up tree, bcList
+initUsers()-> Inits Uer Table
+
+
+Step one:
+Build utils and types.
+Test parameters for Types
