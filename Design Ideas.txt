@@ -30,9 +30,19 @@ Types needed:
 
 Justification for use of AVL tree: This is a search heavy operation, and additions/removals will not be frequent, making AVL a more accurate fit for the task than red-black
 
-Functions:
-initTree() -> Sets up tree, bcList
-initUsers()-> Inits Uer Table
+Library and UserTable should be treated as interfaces for lower level implementation, 
+
+Library Interface:
+int initLibrary(int mode) -> Sets up backend library
+int AddBook(Book* newBook, int count) -> Adds Book  
+Int RemoveBarcode(int Barcode) -> Removes barcode from tree, decrements associated book in Book Count by one
+int checkoutBook(Int Barcode, int UserId) -> Attempts to check out book to userId. Returns 0 if successful, -1 if book is already checked out
+int getFreeBarcode(char* Title) -> Attemtps to return first free Barcode for teh given book title. Returns barcode if successful, -1 if there are no availible books, and -2 if the book is not in the list of books.
+
+
+User Interface:
+int initUsers()-> Sets up back end users
+
 
 
 Step one:
