@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "list.h"
 
 struct lNode{
     void* data;
@@ -8,20 +8,16 @@ struct lNode{
     ListPtr last;
 };
 
-struct tNode{
-    void* data;
-    //Comparison functions over tNode.data, returns 0, 1, -1. 1 for greater, 0 for equality, -1 for less 
-    int (*comparator)(void*,void*);
-    TreePtr leaves[2];
-    int balanceFactor;
-};
 
 ListPtr ListCreate(void* data, int (*comparator)(void*,void*)){
     ListPtr out = (ListPtr) malloc(sizeof(ListNode));
-    out->data = data;
-    out->comparator = comparator;
-    out->next = NULL;
-    out->last = NULL;
+
+    if(out != NULL){
+        out->data = data;
+        out->comparator = comparator;
+        out->next = NULL;
+        out->last = NULL;
+    }
     return out;
 }
 void ListDestroy(ListPtr list){
@@ -51,29 +47,5 @@ void ListDelete(ListPtr list, void* data){
     else{
         ListDelete(list->next, data);
     }
-    return;
-}
-
-TreePtr TreeCreate(void* data, int (*comparator)(void*,void*)){
-    TreePtr out = (TreePtr) malloc(sizeof(TreeNode));
-    out->data = data;
-    out->comparator = comparator;
-    out->leaves[0] = NULL;
-    out->leaves[1] = NULL;
-    out->balanceFactor = 0;
-    return out;
-}
-void TreeDestroy(TreePtr tree){
-    if( tree->data != NULL){
-        free(tree->data);
-    }
-    TreeDestroy(tree->leaves[0]);
-    TreeDestroy(tree->leaves[1]);
-}
-
-void TreeInsert(TreePtr tree, void* data){
-    return;
-}
-void TreeDelete(TreePtr tree, void* data){
     return;
 }
