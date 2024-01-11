@@ -22,7 +22,10 @@ ListPtr ListCreate(void* data, int (*comparator)(void*,void*)){
 }
 void ListDestroy(ListPtr list){
     free(list->data);
-    
+    if(list->next!= NULL){
+        ListDestroy(list->next);
+    }
+    free(list);
 }
 void ListInsert(ListPtr list, void* data){
     if(list->next ==NULL){
