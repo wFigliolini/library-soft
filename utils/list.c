@@ -4,24 +4,26 @@ struct lNode{
     void* data;
     //Comparison functions over lNode.data, returns 0, 1, -1. 1 for greater, 0 for equality, -1 for less 
     int (*comparator)(void*,void*);
+    void (*destroyer)(void*);
     ListPtr next;
     ListPtr last;
 };
 
 
-ListPtr ListCreate(void* data, int (*comparator)(void*,void*)){
+ListPtr ListCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)(void*)){
     ListPtr out = (ListPtr) malloc(sizeof(ListNode));
 
     if(out != NULL){
         out->data = data;
         out->comparator = comparator;
+        out->destroyer = destroyer;
         out->next = NULL;
         out->last = NULL;
     }
     return out;
 }
 void ListDestroy(ListPtr list){
-    free(list->data);
+    list->destroyer(list->data);
     if(list->next!= NULL){
         ListDestroy(list->next);
     }
