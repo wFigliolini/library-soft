@@ -31,7 +31,7 @@ void ListDestroy(ListPtr list){
 }
 void ListInsert(ListPtr list, void* data){
     if(list->next ==NULL){
-        list->next = ListCreate(data, list->comparator);
+        list->next = ListCreate(data, list->comparator, list->destroyer);
         list->next->last = list;
     }
     else {
