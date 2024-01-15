@@ -39,16 +39,24 @@ void ListInsert(ListPtr list, void* data){
 }
 void ListDelete(ListPtr list, void* data){
     if(list->comparator(list->data, data) == 0){
-        //point the adjacent list nodes to eachother
-        list->last->next = list->next;
-        list->next->last = list->last;
-        //isolate the current node
-        list->next = NULL;
-        list->last = NULL;
-        ListDestroy(list);
+        ListPtr curr = list;
+        if(curr->next != NULL){
+            curr->next->last = curr->last;
+            curr->next = NULL;
+        }
+        if (curr->last != NULL) {
+            curr->last->next = curr->next;
+            curr->last = NULL;
+        }
+        else if(curr->last == NULL){ //Curr is head of list
+            list = curr->next;
+        }
+        ListDestroy(curr);
     }
     else{
-        ListDelete(list->next, data);
+        if(list->next != NULL){
+            ListDelete(list->next, data);
+        }
     }
     return;
 }
