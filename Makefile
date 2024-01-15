@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = 
-DEPS = utils.h
+DEPS = list.h
 OBJ = utils.o
 
 %.o: %.c $(DEPS)
