@@ -62,3 +62,7 @@ void ListDelete(ListPtr list, void* data){
     }
     return;
 }
+
+void* ListGetVal(ListPtr list){
+    return list->data;
+}
