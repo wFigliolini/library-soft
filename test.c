@@ -23,10 +23,10 @@ int runListTests(){
     int TestVal1 = 1;
     ListPtr TestList1 = CreateIntList(TestVal1);
     assert(getIntVal(TestList1) == TestVal1);
-    ListDestroy(TestList1);
+    ListDestroy(&TestList1);
     assert(TestList1 == NULL);
     }
-
+    return 0;
 }
 int IntComparator(void* int1, void* int2){
     return ((*(int*)int1) -(*(int*)int2));
