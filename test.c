@@ -20,12 +20,19 @@ int runTests(){
 
 int runListTests(){
     {
-    int TestVal1 = 1;
-    ListPtr TestList1 = CreateIntList(TestVal1);
-    assert(getIntVal(TestList1) == TestVal1);
-    ListDestroy(&TestList1);
-    assert(TestList1 == NULL);
+        int TestVal1 = 1;
+        ListPtr TestList1 = CreateIntList(TestVal1);
+        assert(getIntVal(TestList1) == TestVal1);
+        ListDestroy(&TestList1);
+        assert(TestList1 == NULL);
     }
+    {
+        int testVal1 = 1; int testVal2 = 2;
+        ListPtr TestList1 = CreateIntList(testVal1);
+        ListInsertBack(TestList1, &testVal2);
+        assert()
+    }
+
     return 0;
 }
 int IntComparator(void* int1, void* int2){
@@ -40,6 +47,6 @@ ListPtr CreateIntList(int IntValue){
 }
 
 int getIntVal(ListPtr list){
-    void* tempholder = ListGetVal(list);
+    void* tempholder = list->data;
     return *(int*) tempholder;
 }
