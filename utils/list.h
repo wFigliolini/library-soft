@@ -20,6 +20,5 @@ ListPtr ListCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)
 void ListDestroy(ListPtr* list);
 void ListInsertBack(ListPtr list, void* data);
 void ListDelete(ListPtr* list, void* data);
-void* ListGetVal(ListPtr list);
 
 #endif
