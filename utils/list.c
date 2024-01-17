@@ -22,26 +22,30 @@ ListPtr ListCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)
     }
     return out;
 }
-void ListDestroy(ListPtr list){
-    list->destroyer(list->data);
-    if(list->next!= NULL){
-        ListDestroy(list->next);
+void ListDestroy(ListPtr* list){
+    ListPtr curr = *list;
+    curr->destroyer(curr->data);
+    if(curr->next!= NULL){
+        ListDestroy(&(curr->next));
     }
-    free(list);
+    free(*list);
+    *list = NULL;
+    return;
 }
-void ListInsert(ListPtr list, void* data){
+void ListInsertBack(ListPtr list, void* data){
     if(list->next ==NULL){
         list->next = ListCreate(data, list->comparator, list->destroyer);
         list->next->last = list;
     }
     else {
-        ListInsert(list->next, data);
+        ListInsertBack(list->next, data);
     }
     return;
 }
-void ListDelete(ListPtr list, void* data){
-    if(list->comparator(list->data, data) == 0){
-        ListPtr curr = list;
+void ListDelete(ListPtr* list, void* data){
+    ListPtr curr = *list;
+    if(curr->comparator(curr->data, data) == 0){
+        ListPtr* OldHead = list;
         if(curr->next != NULL){
             curr->next->last = curr->last;
             curr->next = NULL;
@@ -51,13 +55,13 @@ void ListDelete(ListPtr list, void* data){
             curr->last = NULL;
         }
         else if(curr->last == NULL){ //Curr is head of list
-            list = curr->next;
+            list = &(curr->next);
         }
-        ListDestroy(curr);
+        ListDestroy(OldHead);
     }
     else{
-        if(list->next != NULL){
-            ListDelete(list->next, data);
+        if(curr->next != NULL){
+            ListDelete(&(curr->next), data);
         }
     }
     return;
