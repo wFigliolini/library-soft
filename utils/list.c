@@ -1,5 +1,13 @@
 #include "list.h"
 
+struct lNode{
+    void* data;
+    //Comparison functions over lNode.data, returns 0, 1, -1. 1 for greater, 0 for equality, -1 for less 
+    int (*comparator)(void*,void*);
+    void (*destroyer)(void*);
+    ListPtr next;
+    ListPtr last;
+};
 
 ListPtr ListCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)(void*)){
     ListPtr out = (ListPtr) malloc(sizeof(ListNode));
@@ -56,4 +64,23 @@ void ListDelete(ListPtr* list, void* data){
         }
     }
     return;
+}
+
+void* ListGet(ListPtr list,int index){
+    if(index == 0){
+        return list->data;
+    }
+    else{
+        if(list->next ==NULL) return NULL;
+        return ListGet(list->next, index-1);
+    }
+}
+void* ListFind(ListPtr list,void* data){
+    if(list->comparator(list->data, data) == 0){
+        return list->data;
+    }
+    else{
+        if(list->next == NULL) return NULL;
+        return ListFind(list->next, data);
+    }
 }
