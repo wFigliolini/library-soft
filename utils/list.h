@@ -14,6 +14,7 @@ void ListDestroy(ListPtr* list);
 void ListInsertBack(ListPtr list, void* data);
 void ListDelete(ListPtr* list, void* data);
 void* ListGet(ListPtr list,int index);
+ListPtr ListGetNode(ListPtr list,int index);
 void* ListFind(ListPtr list,void* data);
 
 #endif
