@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include"utils/list.h"
+#include"list.h"
 
 int runTests();
 int runListTests();
