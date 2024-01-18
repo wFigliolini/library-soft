@@ -1,9 +1,10 @@
 CC = clang
-CFLAGS = 
-DEPS = utils/list.h
-OBJ = list.o
+CFLAGS = -g
+SRCDIR = ./src/
+DEPS = list.h
+OBJ = list.o test.o
 
-%.o: %.c $(DEPS)
+%.o: $(SRCDIR)%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 test: $(OBJ)
