@@ -22,7 +22,7 @@ int runListTests(){
     {   //Test for basic creation and destruction
         int TestVal1 = 1;
         ListPtr TestList1 = CreateIntList(TestVal1);
-        assert(getIntVal(TestList1) == TestVal1);
+        assert(*(getIntVal(TestList1,0)) == TestVal1);
         ListDestroy(&TestList1);
         assert(TestList1 == NULL);
     }
@@ -87,5 +87,5 @@ ListPtr CreateIntList(int IntValue){
 
 int* getIntVal(ListPtr list, int index){
     void* tempholder = ListGet(list, index);
-    return int* tempholder;
+    return (int*) tempholder;
 }
