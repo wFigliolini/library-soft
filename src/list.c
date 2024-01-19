@@ -82,7 +82,7 @@ ListPtr ListGetNode(ListPtr list,int index){
     }
     else{
         if(list->next ==NULL) return NULL;
-        return ListGet(list->next, index-1);
+        return ListGetNode(list->next, index-1);
     }
 }
 
