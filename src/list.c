@@ -23,13 +23,14 @@ ListPtr ListCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)
 }
 void ListDestroy(ListPtr* list){
     ListPtr curr = *list;
+
+    if(curr == NULL) return;
+
+    ListPtr* next = &(curr->next);
     curr->destroyer(curr->data);
-    if(curr->next!= NULL){
-        ListDestroy(&(curr->next));
-    }
     free(*list);
     *list = NULL;
-    return;
+    ListDestroy(next);
 }
 void ListInsertBack(ListPtr list, void* data){
     if(list->next ==NULL){
