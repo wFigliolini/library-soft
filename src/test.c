@@ -8,6 +8,7 @@ int runListTests();
 ListPtr CreateIntList(int IntValue);
 int IntComparator(void* int1, void* int2);
 int* getIntVal(ListPtr list,  int index);
+void IntListInsert(ListPtr list, int IntValue);
 
 int main(int argc, char* argv[]){
     return runTests();
@@ -33,7 +34,7 @@ int runListTests(){
         int testVal1 = 1; int testVal2 = 2;
         int result1; int result2;
         ListPtr TestList1 = CreateIntList(testVal1);
-        ListInsertBack(TestList1, &testVal2);
+        IntListInsert(TestList1, testVal2);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal1);
@@ -48,8 +49,8 @@ int runListTests(){
         int testVal1 = 1; int testVal2 = 2; int testVal3 = 3;
         int result1; int result2; int result3;
         ListPtr TestList1 = CreateIntList(testVal1);
-        ListInsertBack(TestList1, &testVal2);
-        ListInsertBack(TestList1, &testVal3);
+        IntListInsert(TestList1, testVal2);
+        IntListInsert(TestList1, testVal3);
         ListDelete(&TestList1, &testVal1);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
@@ -62,8 +63,8 @@ int runListTests(){
         int testVal1 = 1; int testVal2 = 2; int testVal3 = 3;
         int result1; int result2; int result3;
         ListPtr TestList1 = CreateIntList(testVal1);
-        ListInsertBack(TestList1, &testVal2);
-        ListInsertBack(TestList1, &testVal3);
+        IntListInsert(TestList1, testVal2);
+        IntListInsert(TestList1, testVal3);
         ListDelete(&TestList1, &testVal3);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
@@ -76,8 +77,8 @@ int runListTests(){
         int testVal1 = 1; int testVal2 = 2; int testVal3 = 3;
         int result1; int result2; int result3;
         ListPtr TestList1 = CreateIntList(testVal1);
-        ListInsertBack(TestList1, &testVal2);
-        ListInsertBack(TestList1, &testVal3);
+        IntListInsert(TestList1, testVal2);
+        IntListInsert(TestList1, testVal3);
         ListDelete(&TestList1, &testVal2);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
@@ -103,4 +104,10 @@ ListPtr CreateIntList(int IntValue){
 int* getIntVal(ListPtr list, int index){
     void* tempholder = ListGet(list, index);
     return (int*) tempholder;
+}
+
+void IntListInsert(ListPtr list, int IntValue){
+    void* IntStorage = malloc(sizeof(int));
+    *(int*)IntStorage = IntValue;
+    ListInsertBack(list, IntStorage);
 }
