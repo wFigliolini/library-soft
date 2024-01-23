@@ -9,6 +9,7 @@ ListPtr CreateIntList(int IntValue);
 int IntComparator(void* int1, void* int2);
 int* getIntVal(ListPtr list,  int index);
 void IntListInsert(ListPtr list, int IntValue);
+void IntListDelete(ListPtr* list, int IntValue);
 
 int main(int argc, char* argv[]){
     return runTests();
@@ -40,9 +41,7 @@ int runListTests(){
         assert(result1 == testVal1);
         assert(result2 == testVal2);
         assert(getIntVal(TestList1, 2) == NULL);
-        ListPtr SecondNode = ListGetNode(TestList1,1);
         ListDestroy(&TestList1);
-        assert(SecondNode == NULL);
     }
 
     {   //Test for deletion, Case 1: Head of List
@@ -51,7 +50,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        ListDelete(&TestList1, &testVal1);
+        IntListDelete(&TestList1, testVal1);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal2);
@@ -65,7 +64,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        ListDelete(&TestList1, &testVal3);
+        IntListDelete(&TestList1, testVal3);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal1);
@@ -79,12 +78,28 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        ListDelete(&TestList1, &testVal2);
+        IntListDelete(&TestList1, testVal2);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal1);
         assert(result2 == testVal3);
         assert(getIntVal(TestList1, 2) == NULL);
+        ListDestroy(&TestList1);
+    }
+    {   //Test for deletion, Case 4: Deletion of Value that is not in list
+        int testVal1 = 1; int testVal2 = 2; int testVal3 = 3;
+        int result1; int result2; int result3;
+        ListPtr TestList1 = CreateIntList(testVal1);
+        IntListInsert(TestList1, testVal2);
+        IntListInsert(TestList1, testVal3);
+        IntListDelete(&TestList1, 4);
+        result1 = *(getIntVal(TestList1,0));
+        result2 = *(getIntVal(TestList1,1));
+        result2 = *(getIntVal(TestList1,2));
+        assert(result1 == testVal1);
+        assert(result2 == testVal2);
+        assert(result3 == testVal3);
+        assert(getIntVal(TestList1, 3) == NULL);
         ListDestroy(&TestList1);
     }
 
@@ -110,4 +125,10 @@ void IntListInsert(ListPtr list, int IntValue){
     void* IntStorage = malloc(sizeof(int));
     *(int*)IntStorage = IntValue;
     ListInsertBack(list, IntStorage);
+}
+
+void IntListDelete(ListPtr* list, int IntValue){
+    void* IntStorage = malloc(sizeof(int));
+    *(int*)IntStorage = IntValue;
+    ListDelete(list, IntStorage);
 }
