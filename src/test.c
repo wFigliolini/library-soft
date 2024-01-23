@@ -95,7 +95,7 @@ int runListTests(){
         IntListDelete(&TestList1, 4);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
-        result2 = *(getIntVal(TestList1,2));
+        result3 = *(getIntVal(TestList1,2));
         assert(result1 == testVal1);
         assert(result2 == testVal2);
         assert(result3 == testVal3);
