@@ -28,6 +28,11 @@ void ListDestroy(ListPtr* list){
 
     ListPtr* next = &(curr->next);
     curr->destroyer(curr->data);
+    curr->data = NULL;
+    curr->comparator = NULL;
+    curr->destroyer = NULL;
+    curr->last = NULL;
+    curr->next = NULL;
     free(*list);
     *list = NULL;
     ListDestroy(next);
@@ -44,31 +49,21 @@ void ListInsertBack(ListPtr list, void* data){
 }
 void ListDelete(ListPtr* list, void* data){
     ListPtr curr = *list;
-    if(curr->comparator(curr->data, data) == 0){
-        ListPtr* OldHead = list;
-        if(curr->next != NULL){
-            curr->next->last = curr->last;
-            curr->next = NULL;
-        }
-        if (curr->last != NULL) {
-            curr->last->next = curr->next;
-            curr->last = NULL;
-        }
-        else if(curr->last == NULL){ //Curr is head of list
-            list = &(curr->next);
-        }
-        ListDestroy(OldHead);
+    if(curr == NULL) return; //Found end of list case
+    if(curr->comparator(curr->data, data) == 0){ //Found data
+        *list = curr->next;
+        if (curr->next != NULL) curr->next->last = *list;
+        curr->next = NULL;
+        curr->last = NULL;
+        ListDestroy(&curr);
+        return;
     }
-    else{
-        if(curr->next != NULL){
-            ListDelete(&(curr->next), data);
-        }
-    }
-    return;
+    ListDelete(&(curr->next), data); //Continue down the list
 }
 
 void* ListGet(ListPtr list,int index){
     if(index == 0){
+        if(list == NULL) return NULL;
         return list->data;
     }
     else{
