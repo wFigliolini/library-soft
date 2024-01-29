@@ -91,3 +91,9 @@ void* ListFind(ListPtr list,void* data){
         return ListFind(list->next, data);
     }
 }
+
+void ListPush(ListPtr* list, void* data){
+    ListPtr curr = *list;
+    ListPtr NewTop = ListCreate(data, curr->comparator, curr->destroyer);
+}
+void* ListPop(ListPtr* list);

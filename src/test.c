@@ -124,11 +124,12 @@ int* getIntVal(ListPtr list, int index){
 void IntListInsert(ListPtr list, int IntValue){
     void* IntStorage = malloc(sizeof(int));
     *(int*)IntStorage = IntValue;
-    ListInsertBack(list, IntStorage);
+    ListInsert(list, IntStorage);
 }
 
 void IntListDelete(ListPtr* list, int IntValue){
     void* IntStorage = malloc(sizeof(int));
     *(int*)IntStorage = IntValue;
     ListDelete(list, IntStorage);
+    free(IntStorage);
 }
