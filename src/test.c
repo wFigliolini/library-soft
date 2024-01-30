@@ -121,7 +121,7 @@ int IntComparator(void* int1, void* int2){
 DataPtr CreateIntData(int IntValue){
     void* IntStorage = malloc(sizeof(int));
     *(int*)IntStorage = IntValue;
-    return CreateData(IntStorage, IntComparator, free);
+    return DataCreate(IntStorage, IntComparator, free);
 }
 
 ListPtr CreateIntList(int IntValue){
@@ -131,7 +131,7 @@ ListPtr CreateIntList(int IntValue){
 
 int* getIntVal(ListPtr list, int index){
     DataPtr tempholder = ListGet(list, index);
-    void* result = GetData(tempholder);
+    void* result = DataGet(tempholder);
     return (int*) result;
 }
 
@@ -143,5 +143,5 @@ void IntListInsert(ListPtr list, int IntValue){
 void IntListDelete(ListPtr* list, int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue);
     ListDelete(list, IntStorage);
-    DestroyData(&IntStorage);
+    DataDestroy(&IntStorage);
 }

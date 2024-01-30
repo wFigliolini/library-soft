@@ -23,7 +23,7 @@ void ListDestroy(ListPtr* list){
     if(curr == NULL) return;
 
     ListPtr* next = &(curr->next);
-    DestroyData(&(curr->data));
+    DataDestroy(&(curr->data));
     curr->data = NULL;
     curr->last = NULL;
     curr->next = NULL;
@@ -44,7 +44,7 @@ void ListInsert(ListPtr list, void* data){
 void ListDelete(ListPtr* list, DataPtr data){
     ListPtr curr = *list;
     if(curr == NULL) return; //Found end of list case
-    if(CompareData(curr->data,data) == 0){ //Found data
+    if(DataCompare(curr->data,data) == 0){ //Found data
         *list = curr->next;
         if (curr->next != NULL) curr->next->last = *list;
         curr->next = NULL;
@@ -77,7 +77,7 @@ ListPtr ListGetNode(ListPtr list,int index){
 }
 
 void* ListFind(ListPtr list,DataPtr data){
-    if(CompareData(list->data, data) == 0){
+    if(DataCompare(list->data, data) == 0){
         return list->data;
     }
     else{
