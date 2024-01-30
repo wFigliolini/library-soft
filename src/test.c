@@ -1,10 +1,14 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include"DataHolder.h"
 #include"list.h"
 
 int runTests();
+int runDataHolderTests();
 int runListTests();
+
+DataPtr CreateIntData(int IntValue);
 ListPtr CreateIntList(int IntValue);
 int IntComparator(void* int1, void* int2);
 int* getIntVal(ListPtr list,  int index);
@@ -18,6 +22,11 @@ int main(int argc, char* argv[]){
 int runTests(){
     int result = 0;
     result = result || runListTests();
+    return 0;
+}
+
+int runDataHolderTests(){
+
     return 0;
 }
 
@@ -109,27 +118,30 @@ int IntComparator(void* int1, void* int2){
     return ((*(int*)int1) -(*(int*)int2));
 }
 
-
-ListPtr CreateIntList(int IntValue){
+DataPtr CreateIntData(int IntValue){
     void* IntStorage = malloc(sizeof(int));
     *(int*)IntStorage = IntValue;
-    return ListCreate(IntStorage, IntComparator, free);
+    return CreateData(IntStorage, IntComparator, free);
+}
+
+ListPtr CreateIntList(int IntValue){
+    DataPtr IntStorage = CreateIntData(IntValue); 
+    return ListCreate(IntStorage);
 }
 
 int* getIntVal(ListPtr list, int index){
-    void* tempholder = ListGet(list, index);
-    return (int*) tempholder;
+    DataPtr tempholder = ListGet(list, index);
+    void* result = GetData(tempholder);
+    return (int*) result;
 }
 
 void IntListInsert(ListPtr list, int IntValue){
-    void* IntStorage = malloc(sizeof(int));
-    *(int*)IntStorage = IntValue;
+    DataPtr IntStorage = CreateIntData(IntValue);
     ListInsert(list, IntStorage);
 }
 
 void IntListDelete(ListPtr* list, int IntValue){
-    void* IntStorage = malloc(sizeof(int));
-    *(int*)IntStorage = IntValue;
+    DataPtr IntStorage = CreateIntData(IntValue);
     ListDelete(list, IntStorage);
-    free(IntStorage);
+    DestroyData(&IntStorage);
 }
