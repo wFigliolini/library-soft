@@ -1,8 +1,8 @@
 CC = clang
 CFLAGS = -g
 SRCDIR = ./src/
-DEPS = list.h
-OBJ = list.o test.o
+DEPS = DataHolder.h list.h
+OBJ = DataHolder.o list.o test.o
 
 %.o: $(SRCDIR)%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
