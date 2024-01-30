@@ -8,7 +8,7 @@ struct datastruct{
     void (*destroyer)(void*);
 };
 
-DataPtr CreateData(void* data, int (*comparator)(void*,void*), void (*destroyer)(void*)){
+DataPtr DataCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)(void*)){
     DataPtr out = malloc(sizeof(DataHolder));
     if(out != NULL){
         out->data = data;
@@ -17,13 +17,13 @@ DataPtr CreateData(void* data, int (*comparator)(void*,void*), void (*destroyer)
     }
     return out;
 }
-void DestroyData(DataPtr* data){
+void DataDestroy(DataPtr* data){
     DataPtr curr = *data;
     curr->destroyer(curr->data);
     free(*data);
 }
 
-int CompareData(DataPtr left, DataPtr right){
+int DataCompare(DataPtr left, DataPtr right){
     if(left->comparator != right->comparator) return -2;
     
     int result = left->comparator(left->data, right->data); 
@@ -36,6 +36,6 @@ int CompareData(DataPtr left, DataPtr right){
     }
     return 0;
 }
-void* GetData(DataPtr data){
+void* DataGet(DataPtr data){
     return data->data;
 }
