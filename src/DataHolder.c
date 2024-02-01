@@ -3,7 +3,7 @@
 
 struct datastruct{
     void* data;
-    //Comparison functions over data, returns 0, 1, -1. 1 for greater, 0 for equality, -1 for less. -2 is used for type mismatch
+   
     int (*comparator)(void*,void*);
     void (*destroyer)(void*);
 };
