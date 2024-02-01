@@ -26,7 +26,52 @@ int runTests(){
 }
 
 int runDataHolderTests(){
+    {   //test for creation, get, and destruction
+        int TestVal = 1; int result;
+        void* tempPtr;
+        DataPtr TestData = CreateIntData(TestVal);
+        tempPtr = DataGet(TestData);
 
+        assert(tempPtr != NULL);
+
+        DataDestroy(&TestData);
+    
+        assert(TestData == NULL);
+    }
+
+    { //test for comparison
+        int TestVal = 10; int TestHigher = 20; int TestLower = 0; 
+        void* OtherVal = malloc(sizeof(char));
+        DataPtr TestData = CreateIntData(TestVal);
+        DataPtr HigherData = CreateIntData(TestHigher);
+        DataPtr LowerData = CreateIntData(TestLower);
+        DataPtr OtherData = DataCreate(OtherVal, NULL, free);
+
+
+        int compareResult;
+
+        //equal case
+        compareResult = DataCompare(TestData, TestData);
+        assert(compareResult == 0);
+
+        //higher case
+        compareResult = DataCompare(TestData, HigherData);
+        assert(compareResult == 1);
+
+        //lower case
+        compareResult = DataCompare(TestData, LowerData);
+        assert(compareResult == -1);
+
+        //mismatch case
+        compareResult = DataCompare(TestData, OtherData);
+        assert(compareResult == -2);
+
+        DataDestroy(&TestData);
+        DataDestroy(&HigherData);
+        DataDestroy(&LowerData);
+        DataDestroy(&OtherData);
+
+    }
     return 0;
 }
 
