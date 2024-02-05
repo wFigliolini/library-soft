@@ -13,7 +13,7 @@ typedef ListNode* ListPtr;
 
 ListPtr ListCreate(DataPtr data);
 void ListDestroy(ListPtr* list);
-void ListInsert(ListPtr list, void* data);
+void ListInsert(ListPtr list, DataPtr data);
 void ListDelete(ListPtr* list, DataPtr data);
 
 void* ListGet(ListPtr list,int index);

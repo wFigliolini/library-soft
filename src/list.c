@@ -28,7 +28,7 @@ void ListDestroy(ListPtr* list){
     free(*list);
     *list = NULL;
 }
-void ListInsert(ListPtr list, void* data){
+void ListInsert(ListPtr list, DataPtr data){
     if(list->next ==NULL){
         list->next = ListCreate(data);
         list->next->last = list;
