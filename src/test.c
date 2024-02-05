@@ -21,6 +21,7 @@ int main(int argc, char* argv[]){
 
 int runTests(){
     int result = 0;
+    result = result || runDataHolderTests();
     result = result || runListTests();
     return 0;
 }
@@ -33,6 +34,7 @@ int runDataHolderTests(){
         tempPtr = DataGet(TestData);
 
         assert(tempPtr != NULL);
+        assert(*(int*)tempPtr == TestVal);
 
         DataDestroy(&TestData);
     
@@ -56,11 +58,11 @@ int runDataHolderTests(){
 
         //higher case
         compareResult = DataCompare(TestData, HigherData);
-        assert(compareResult == 1);
+        assert(compareResult == -1);
 
         //lower case
         compareResult = DataCompare(TestData, LowerData);
-        assert(compareResult == -1);
+        assert(compareResult == 1);
 
         //mismatch case
         compareResult = DataCompare(TestData, OtherData);
