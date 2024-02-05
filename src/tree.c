@@ -43,7 +43,8 @@ void TreeDestroy(TreePtr* tree){
 
     TreeNodeDestroy(&(curr->tree));
 
-    free(tree);
+    free(*tree);
+    *tree = NULL;
 }
 
 
@@ -59,6 +60,8 @@ void TreeNodeDestroy(TreeNodePtr* treeNode){
     TreeNodeDestroy(&(curr->leaves[0]));
     TreeNodeDestroy(&(curr->leaves[1]));
 
+    free(*treeNode);
+    *treeNode = NULL;
 }
 
 void TreeInsert(TreePtr tree, DataPtr data){
