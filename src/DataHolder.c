@@ -20,11 +20,15 @@ DataPtr DataCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)
 void DataDestroy(DataPtr* data){
     DataPtr curr = *data;
     curr->destroyer(curr->data);
-    free(*data);
+    curr->data = NULL;
+    curr->comparator = NULL;
+    curr->destroyer = NULL;
+    free(curr);
+    *data = NULL;
 }
 
 int DataCompare(DataPtr left, DataPtr right){
-    if(left->comparator != right->comparator) return -2;
+    if(left->comparator != right->comparator || left->comparator == NULL) return -2;
     
     int result = left->comparator(left->data, right->data); 
 
