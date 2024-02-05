@@ -7,6 +7,11 @@ struct lNode{
     ListPtr last;
 };
 
+void ListIsolate(ListPtr list){
+    list->next = NULL;
+    list->last = NULL;
+}
+
 ListPtr ListCreate(DataPtr data){
     ListPtr out = (ListPtr) malloc(sizeof(ListNode));
 
@@ -44,8 +49,7 @@ void ListDelete(ListPtr* list, DataPtr data){
     if(DataCompare(curr->data,data) == 0){ //Found data
         *list = curr->next;
         if (curr->next != NULL) curr->next->last = *list;
-        curr->next = NULL;
-        curr->last = NULL;
+        ListIsolate(curr); 
         ListDestroy(&curr);
         return;
     }
@@ -83,8 +87,19 @@ void* ListFind(ListPtr list,DataPtr data){
     }
 }
 
-void ListPush(ListPtr* list, void* data){
-    ListPtr curr = *list;
+void ListPush(ListPtr* list, DataPtr data){
+    ListPtr OldTop = *list;
     ListPtr NewTop = ListCreate(data);
+    NewTop->next = OldTop;
+    OldTop->last = NewTop;
+    *list = NewTop;
 }
-void* ListPop(ListPtr* list);
+DataPtr ListPop(ListPtr* list){
+    ListPtr curr = *list;
+    DataPtr output = curr->data;
+    *list = curr->next;
+    ListIsolate(curr);
+    curr->data = NULL;
+    ListDestroy(&curr);
+    return output;
+}

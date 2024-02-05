@@ -20,7 +20,7 @@ void* ListGet(ListPtr list,int index);
 ListPtr ListGetNode(ListPtr list,int index);
 void* ListFind(ListPtr list,DataPtr data);
 
-void ListPush(ListPtr* list, void* data);
+void ListPush(ListPtr* list, DataPtr data);
 DataPtr ListPop(ListPtr* list);
 
 
