@@ -24,12 +24,9 @@ void ListDestroy(ListPtr* list){
 
     ListPtr* next = &(curr->next);
     DataDestroy(&(curr->data));
-    curr->data = NULL;
-    curr->last = NULL;
-    curr->next = NULL;
+    ListDestroy(next);
     free(*list);
     *list = NULL;
-    ListDestroy(next);
 }
 void ListInsert(ListPtr list, void* data){
     if(list->next ==NULL){

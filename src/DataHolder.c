@@ -41,5 +41,6 @@ int DataCompare(DataPtr left, DataPtr right){
     return 0;
 }
 void* DataGet(DataPtr data){
+    if(data == NULL) return NULL;
     return data->data;
 }
