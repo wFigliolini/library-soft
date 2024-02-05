@@ -56,7 +56,7 @@ void ListDelete(ListPtr* list, DataPtr data){
     ListDelete(&(curr->next), data); //Continue down the list
 }
 
-void* ListGet(ListPtr list,int index){
+DataPtr ListGet(ListPtr list,int index){
     if(index == 0){
         if(list == NULL) return NULL;
         return list->data;
@@ -67,7 +67,7 @@ void* ListGet(ListPtr list,int index){
     }
 }
 
-void* ListFind(ListPtr list,DataPtr data){
+DataPtr ListFind(ListPtr list,DataPtr data){
     if(DataCompare(list->data, data) == 0){
         return list->data;
     }

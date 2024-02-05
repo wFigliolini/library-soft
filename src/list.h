@@ -16,8 +16,8 @@ void ListDestroy(ListPtr* list);
 void ListInsert(ListPtr list, DataPtr data);
 void ListDelete(ListPtr* list, DataPtr data);
 
-void* ListGet(ListPtr list,int index);
-void* ListFind(ListPtr list,DataPtr data);
+DataPtr ListGet(ListPtr list,int index);
+DataPtr ListFind(ListPtr list,DataPtr data);
 
 void ListPush(ListPtr* list, DataPtr data);
 DataPtr ListPop(ListPtr* list);
