@@ -67,16 +67,6 @@ void* ListGet(ListPtr list,int index){
     }
 }
 
-ListPtr ListGetNode(ListPtr list,int index){
-    if(index == 0){
-        return list;
-    }
-    else{
-        if(list->next ==NULL) return NULL;
-        return ListGetNode(list->next, index-1);
-    }
-}
-
 void* ListFind(ListPtr list,DataPtr data){
     if(DataCompare(list->data, data) == 0){
         return list->data;

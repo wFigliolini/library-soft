@@ -17,7 +17,6 @@ void ListInsert(ListPtr list, DataPtr data);
 void ListDelete(ListPtr* list, DataPtr data);
 
 void* ListGet(ListPtr list,int index);
-ListPtr ListGetNode(ListPtr list,int index);
 void* ListFind(ListPtr list,DataPtr data);
 
 void ListPush(ListPtr* list, DataPtr data);
