@@ -4,6 +4,7 @@
 #include<stdlib.h>
 
 #include "DataHolder.h"
+#include "list.h"
 
 typedef struct TreeHandler Tree;
 typedef Tree* TreePtr;
