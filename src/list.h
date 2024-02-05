@@ -21,7 +21,7 @@ ListPtr ListGetNode(ListPtr list,int index);
 void* ListFind(ListPtr list,DataPtr data);
 
 void ListPush(ListPtr* list, void* data);
-void* ListPop(ListPtr* list);
+DataPtr ListPop(ListPtr* list);
 
 
 #endif
