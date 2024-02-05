@@ -14,6 +14,8 @@ int IntComparator(void* int1, void* int2);
 int* getIntVal(ListPtr list,  int index);
 void IntListInsert(ListPtr list, int IntValue);
 void IntListDelete(ListPtr* list, int IntValue);
+void IntStackInsert(ListPtr* list, int IntValue);
+DataPtr IntStackPop(ListPtr* list);
 
 int main(int argc, char* argv[]){
     return runTests();
@@ -159,6 +161,21 @@ int runListTests(){
         ListDestroy(&TestList1);
     }
 
+    {// stack operation test
+        int testVal1 = 1; int testVal2 = 2;
+        ListPtr TestStack = CreateIntList(testVal1);
+        DataPtr popTestResult;
+        IntStackInsert(&TestStack, testVal2);
+        assert(*getIntVal(TestStack, 0) == testVal2);
+
+        popTestResult = IntStackPop(&TestStack);
+        assert(*getIntVal(TestStack, 0) == testVal1);
+        assert(*(int*)DataGet(popTestResult) == testVal2);
+
+        DataDestroy(&popTestResult);
+        ListDestroy(&TestStack);
+    }
+
     return 0;
 }
 int IntComparator(void* int1, void* int2){
@@ -191,4 +208,14 @@ void IntListDelete(ListPtr* list, int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue);
     ListDelete(list, IntStorage);
     DataDestroy(&IntStorage);
+}
+
+void IntStackInsert(ListPtr* list, int IntValue){
+    DataPtr IntStorage = CreateIntData(IntValue);
+    ListPush(list, IntStorage);
+}
+
+DataPtr IntStackPop(ListPtr* list){
+    DataPtr IntStorage = ListPop(list);
+    return IntStorage;
 }
