@@ -19,6 +19,7 @@ DataPtr DataCreate(void* data, int (*comparator)(void*,void*), void (*destroyer)
 }
 void DataDestroy(DataPtr* data){
     DataPtr curr = *data;
+    if( curr == NULL) return;
     curr->destroyer(curr->data);
     curr->data = NULL;
     curr->comparator = NULL;
