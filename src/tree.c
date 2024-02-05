@@ -71,6 +71,8 @@ void TreeDelete(TreePtr tree, DataPtr data){
 }
 
 void* TreeNodeFind(TreeNodePtr tree, DataPtr data){
+    if( tree == NULL ) return NULL;
+
     int result = DataCompare(tree->data, data);
 
     if( result == -2 ) return NULL;
