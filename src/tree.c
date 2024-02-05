@@ -1,18 +1,18 @@
 #include "tree.h"
 
 
-void AVLTreeInsert(TreeNodePtr* tree, void* data);
-void AVLTreeDelete(TreeNodePtr* tree, void* data);
+void AVLTreeInsert(TreeNodePtr* tree, DataPtr data);
+void AVLTreeDelete(TreeNodePtr* tree, DataPtr data);
 
 struct TreeHandler{
-    void (*insertMethod)(TreeNodePtr*, void*);
-    void (*deleteMethod)(TreeNodePtr*, void*);
+    void (*insertMethod)(TreeNodePtr*, DataPtr);
+    void (*deleteMethod)(TreeNodePtr*, DataPtr);
     TreeNodePtr tree;
 };
 
 
 
-TreePtr TreeCreate( void (*insertMethod)(TreeNodePtr*, void*), void deleteMethod(TreeNodePtr*, void*)){
+TreePtr TreeCreate( void (*insertMethod)(TreeNodePtr*, DataPtr), void deleteMethod(TreeNodePtr*, DataPtr)){
     TreePtr out = (TreePtr) malloc(sizeof(Tree));
 
     if(out != NULL){
@@ -73,7 +73,7 @@ void TreeDelete(TreePtr tree, DataPtr data){
     tree->deleteMethod(&(tree->tree), data);
 }
 
-void* TreeNodeFind(TreeNodePtr tree, DataPtr data){
+DataPtr TreeNodeFind(TreeNodePtr tree, DataPtr data){
     if( tree == NULL ) return NULL;
 
     int result = DataCompare(tree->data, data);
@@ -90,7 +90,7 @@ void* TreeNodeFind(TreeNodePtr tree, DataPtr data){
         return data;
     }
 }
-void* TreeFind(TreePtr tree, DataPtr data){
+DataPtr TreeFind(TreePtr tree, DataPtr data){
 
     if(tree == NULL)return NULL;
 
@@ -102,10 +102,10 @@ TreePtr TreeAVLCreate(){
     return TreeCreate(AVLTreeInsert, AVLTreeDelete);
 }
 
-void AVLTreeInsert(TreeNodePtr* tree, void* data){
+void AVLTreeInsert(TreeNodePtr* tree, DataPtr data){
     TreeNodePtr curr = *tree;
     
 }
-void AVLTreeDelete(TreeNodePtr* tree, void* data){
+void AVLTreeDelete(TreeNodePtr* tree, DataPtr data){
     TreeNodePtr curr = *tree;
 }

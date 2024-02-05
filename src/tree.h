@@ -19,12 +19,12 @@ struct tNode{
 };
 
 
-TreePtr TreeCreate(void insertMethod(TreeNodePtr*, void*), void deleteMethod(TreeNodePtr*, void*));
+TreePtr TreeCreate(void insertMethod(TreeNodePtr*, DataPtr), void deleteMethod(TreeNodePtr*, DataPtr));
 void TreeDestroy(TreePtr* tree);
 void TreeNodeDestroy(TreeNodePtr* treeNode);
 void TreeInsert(TreePtr tree, DataPtr data);
 void TreeDelete(TreePtr tree, DataPtr data);
-void* TreeFind(TreePtr tree, DataPtr data);
+DataPtr TreeFind(TreePtr tree, DataPtr data);
 
 TreePtr TreeAVLCreate();
 
