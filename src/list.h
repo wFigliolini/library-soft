@@ -16,6 +16,7 @@ typedef ListHandler* ListPtr;
 ListPtr ListCreate();
 void ListDestroy(ListPtr* list);
 void ListInsert(ListPtr list, DataPtr data, int index);
+void ListAppend(ListPtr list, DataPtr data);
 void ListDelete(ListPtr list, DataPtr data);
 
 DataPtr ListGet(ListPtr list,int index);
