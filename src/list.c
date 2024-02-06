@@ -57,17 +57,19 @@ void ListDestroy(ListPtr* list){
 }
 
 void ListNodeInsert(ListNodePtr* list, DataPtr data, int index){
-    ListNodePtr curr = *list; ListNodePtr temp;
+    ListNodePtr curr = *list; ListNodePtr newNode;
 
     if(curr->next == NULL){ // end of list case
         curr->next = ListNodeCreate(data);
         curr->next->last = curr;
+        return;
     }
     else if( index == 0){//middle of list case
-        temp = ListNodeCreate(data);
-        temp->next = curr;
-        temp->last = curr->last;
-        curr->last = temp;
+        newNode = ListNodeCreate(data);
+        newNode->next = curr;
+        newNode->last = curr->last;
+        curr->last = newNode;
+        *list = newNode;
         return;
     }
     ListNodeInsert((&curr->next), data, index-1);
