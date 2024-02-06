@@ -3,17 +3,32 @@
 
 struct lNode{
     DataPtr data;
-    ListPtr next;
-    ListPtr last;
+    ListNodePtr next;
+    ListNodePtr last;
 };
 
-void ListIsolate(ListPtr list){
+struct lHandler{
+    ListNodePtr list;
+    unsigned int size;
+};
+
+void ListNodeIsolate(ListNodePtr list){
     list->next = NULL;
     list->last = NULL;
 }
 
-ListPtr ListCreate(DataPtr data){
-    ListPtr out = (ListPtr) malloc(sizeof(ListNode));
+ListPtr ListCreate(){
+    ListPtr out = (ListPtr) malloc(sizeof(ListHandler));
+
+    if(out != NULL){
+        out->list = NULL;
+        out->size = 0;
+    }
+    return out;
+}
+
+ListNodePtr ListNodeCreate(DataPtr data){
+    ListNodePtr out = (ListNodePtr) malloc(sizeof(ListNode));
 
     if(out != NULL){
         out->data = data;
@@ -22,74 +37,101 @@ ListPtr ListCreate(DataPtr data){
     }
     return out;
 }
-void ListDestroy(ListPtr* list){
-    ListPtr curr = *list;
+
+void ListNodeDestroy(ListNodePtr* list){
+    ListNodePtr curr = *list;
 
     if(curr == NULL) return;
 
-    ListPtr* next = &(curr->next);
+    ListNodePtr* next = &(curr->next);
     DataDestroy(&(curr->data));
-    ListDestroy(next);
+    ListNodeDestroy(next);
     free(*list);
     *list = NULL;
 }
-void ListInsert(ListPtr list, DataPtr data){
-    if(list->next ==NULL){
-        list->next = ListCreate(data);
-        list->next->last = list;
-    }
-    else {
-        ListInsert(list->next, data);
-    }
-    return;
-}
-void ListDelete(ListPtr* list, DataPtr data){
+
+void ListDestroy(ListPtr* list){
     ListPtr curr = *list;
+    ListNodeDestroy(&(curr->list));
+    free(list);
+}
+
+void ListNodeInsert(ListNodePtr* list, DataPtr data, int index){
+    ListNodePtr curr = *list;
+    if(curr->next == NULL){ // end of list case
+        curr->next = ListNodeCreate(data);
+        curr->next->last = curr;
+    }
+    else if( index == 0){
+
+    }
+    ListNodeInsert((&curr->next), data, index-1);
+}
+
+void ListInsert(ListPtr list, DataPtr data, int index){
+    ListNodeInsert(&(list->list), data, index);
+    list->size++;
+}
+
+void ListAppend(ListPtr list, DataPtr data){
+    ListNodeInsert(&(list->list), data, list->size);
+    list->size++;
+}
+
+void ListNodeDelete(ListNodePtr* list, DataPtr data){
+    ListNodePtr curr = *list;
     if(curr == NULL) return; //Found end of list case
     if(DataCompare(curr->data,data) == 0){ //Found data
         *list = curr->next;
         if (curr->next != NULL) curr->next->last = *list;
-        ListIsolate(curr); 
-        ListDestroy(&curr);
+        ListNodeIsolate(curr); 
+        ListNodeDestroy(&curr);
         return;
     }
-    ListDelete(&(curr->next), data); //Continue down the list
+    ListNodeDelete(&(curr->next), data); //Continue down the list
 }
 
-DataPtr ListGet(ListPtr list,int index){
+void ListDelete(ListPtr list, DataPtr data){
+    ListNodeDelete(&(list->list), data);
+    list->size--;
+}
+
+DataPtr ListNodeGet(ListNodePtr list, int index){
     if(index == 0){
         if(list == NULL) return NULL;
         return list->data;
     }
-    else{
-        if(list->next ==NULL) return NULL;
-        return ListGet(list->next, index-1);
-    }
+    if(list->next ==NULL) return NULL;
+    return ListNodeGet(list->next, index-1);
+
 }
 
-DataPtr ListFind(ListPtr list,DataPtr data){
+DataPtr ListGet(ListPtr list,int index){
+    return ListNodeGet(list->list, index);
+}
+
+DataPtr ListNodeFind(ListNodePtr list, DataPtr data){
     if(DataCompare(list->data, data) == 0){
         return list->data;
     }
-    else{
-        if(list->next == NULL) return NULL;
-        return ListFind(list->next, data);
-    }
+    if(list->next == NULL) return NULL;
+    return ListNodeFind(list->next, data);
+
 }
 
-void ListPush(ListPtr* list, DataPtr data){
-    ListPtr OldTop = *list;
-    ListPtr NewTop = ListCreate(data);
-    NewTop->next = OldTop;
-    OldTop->last = NewTop;
-    *list = NewTop;
+DataPtr ListFind(ListPtr list,DataPtr data){
+    return ListNodeFind(list->list, data);
 }
-DataPtr ListPop(ListPtr* list){
-    ListPtr curr = *list;
-    DataPtr output = curr->data;
-    *list = curr->next;
-    ListIsolate(curr);
+
+void ListPush(ListPtr list, DataPtr data){
+    ListNodeInsert(&(list->list), data, 0);
+}
+DataPtr ListPop(ListPtr list){
+    DataPtr output = ListNodeGet(list->list, 0);
+    ListNodePtr curr = list->list;
+    list->list = curr->next;
+    ListNodeIsolate(curr);
     curr->data = NULL;
-    ListDestroy(&curr);
+    ListNodeDestroy(&curr);
     return output;
 }
