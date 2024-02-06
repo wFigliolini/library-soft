@@ -105,7 +105,17 @@ TreePtr TreeAVLCreate(){
 void AVLTreeInsert(TreeNodePtr* tree, DataPtr data){
     TreeNodePtr curr = *tree;
     
+    int compareResult;
+    while(curr!=NULL){
+
+    }
+    if(curr == NULL){
+        *tree = TreeNodeCreate(data);
+    } 
+
 }
 void AVLTreeDelete(TreeNodePtr* tree, DataPtr data){
     TreeNodePtr curr = *tree;
+    if( curr == NULL ) return;
+
 }
