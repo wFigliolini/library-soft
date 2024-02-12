@@ -13,9 +13,9 @@ ListPtr CreateIntList(int IntValue);
 int IntComparator(void* int1, void* int2);
 int* getIntVal(ListPtr list,  int index);
 void IntListInsert(ListPtr list, int IntValue);
-void IntListDelete(ListPtr* list, int IntValue);
-void IntStackInsert(ListPtr* list, int IntValue);
-DataPtr IntStackPop(ListPtr* list);
+void IntListDelete(ListPtr list, int IntValue);
+void IntStackInsert(ListPtr list, int IntValue);
+DataPtr IntStackPop(ListPtr list);
 
 int main(int argc, char* argv[]){
     return runTests();
@@ -108,7 +108,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        IntListDelete(&TestList1, testVal1);
+        IntListDelete(TestList1, testVal1);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal2);
@@ -122,7 +122,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        IntListDelete(&TestList1, testVal3);
+        IntListDelete(TestList1, testVal3);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal1);
@@ -136,7 +136,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        IntListDelete(&TestList1, testVal2);
+        IntListDelete(TestList1, testVal2);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         assert(result1 == testVal1);
@@ -150,7 +150,7 @@ int runListTests(){
         ListPtr TestList1 = CreateIntList(testVal1);
         IntListInsert(TestList1, testVal2);
         IntListInsert(TestList1, testVal3);
-        IntListDelete(&TestList1, 4);
+        IntListDelete(TestList1, 4);
         result1 = *(getIntVal(TestList1,0));
         result2 = *(getIntVal(TestList1,1));
         result3 = *(getIntVal(TestList1,2));
@@ -165,11 +165,19 @@ int runListTests(){
         int testVal1 = 1; int testVal2 = 2;
         ListPtr TestStack = CreateIntList(testVal1);
         DataPtr popTestResult;
-        IntStackInsert(&TestStack, testVal2);
-        assert(*getIntVal(TestStack, 0) == testVal2);
+        int* result;
 
-        popTestResult = IntStackPop(&TestStack);
-        assert(*getIntVal(TestStack, 0) == testVal1);
+        IntStackInsert(TestStack, testVal2);
+        result = getIntVal(TestStack, 0);
+
+        assert(result!=NULL);
+        assert(*result == testVal2);
+
+        popTestResult = IntStackPop(TestStack);
+        result = getIntVal(TestStack, 0);
+
+        assert(result != NULL);
+        assert(*result == testVal1);
         assert(*(int*)DataGet(popTestResult) == testVal2);
 
         DataDestroy(&popTestResult);
@@ -190,7 +198,9 @@ DataPtr CreateIntData(int IntValue){
 
 ListPtr CreateIntList(int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue); 
-    return ListCreate(IntStorage);
+    ListPtr listOut = ListCreate();
+    ListAppend(listOut, IntStorage);
+    return listOut;
 }
 
 int* getIntVal(ListPtr list, int index){
@@ -201,21 +211,21 @@ int* getIntVal(ListPtr list, int index){
 
 void IntListInsert(ListPtr list, int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue);
-    ListInsert(list, IntStorage);
+    ListAppend(list, IntStorage);
 }
 
-void IntListDelete(ListPtr* list, int IntValue){
+void IntListDelete(ListPtr list, int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue);
     ListDelete(list, IntStorage);
     DataDestroy(&IntStorage);
 }
 
-void IntStackInsert(ListPtr* list, int IntValue){
+void IntStackInsert(ListPtr list, int IntValue){
     DataPtr IntStorage = CreateIntData(IntValue);
     ListPush(list, IntStorage);
 }
 
-DataPtr IntStackPop(ListPtr* list){
+DataPtr IntStackPop(ListPtr list){
     DataPtr IntStorage = ListPop(list);
     return IntStorage;
 }
