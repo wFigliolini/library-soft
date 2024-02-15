@@ -45,3 +45,10 @@ void* DataGet(DataPtr data){
     if(data == NULL) return NULL;
     return data->data;
 }
+
+int NullComparator(void* left, void* right){
+    return -2;
+}
+void NullDestroyer(void* data){
+    return;
+}
