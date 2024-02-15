@@ -3,19 +3,27 @@
 
 #include"DataHolder.h"
 #include"list.h"
+#include"tree.h"
 
 int runTests();
 int runDataHolderTests();
 int runListTests();
+int runTreeTests();
 
 DataPtr CreateIntData(int IntValue);
-ListPtr CreateIntList(int IntValue);
 int IntComparator(void* int1, void* int2);
+
+ListPtr CreateIntList(int IntValue);
 int* GetIntListVal(ListPtr list,  int index);
 void IntListInsert(ListPtr list, int IntValue);
 void IntListDelete(ListPtr list, int IntValue);
 void IntStackInsert(ListPtr list, int IntValue);
 DataPtr IntStackPop(ListPtr list);
+
+TreePtr CreateIntTree();
+int* getIntTreeVal(TreePtr tree, int IntValue);
+void IntTreeInsert(TreePtr tree, int IntValue);
+void IntTreeDelete(TreePtr tree, int IntValue);
 
 int main(int argc, char* argv[]){
     return runTests();
@@ -186,6 +194,9 @@ int runListTests(){
 
     return 0;
 }
+
+
+
 int IntComparator(void* int1, void* int2){
     return ((*(int*)int1) -(*(int*)int2));
 }
