@@ -1,4 +1,6 @@
 #include "tree.h"
+#include "DataHolder.h"
+#include "list.h"
 
 
 void AVLTreeInsert(TreeNodePtr* tree, DataPtr data);
@@ -102,16 +104,75 @@ TreePtr TreeAVLCreate(){
     return TreeCreate(AVLTreeInsert, AVLTreeDelete);
 }
 
+void RotateRight(TreeNodePtr* parent, TreeNodePtr rightLeaf){
+    TreeNodePtr currentParent = *parent; 
+    TreeNodePtr RIghtofRightLeaf =rightLeaf->leaves[1];
+
+    currentParent->leaves[0] = RIghtofRightLeaf;
+    rightLeaf->leaves[1] = currentParent;
+    *parent = rightLeaf;
+
+        //Balance factor Operations
+    if(rightLeaf->balanceFactor == 0){
+        rightLeaf->balanceFactor= 1;
+        currentParent->balanceFactor = -1;
+
+    }else{
+        rightLeaf->balanceFactor= 0;
+        currentParent->balanceFactor = 0;
+    }
+}
+
+void RotateLeft(TreeNodePtr* parent, TreeNodePtr leftLeaf){
+    TreeNodePtr currentParent = *parent; 
+    TreeNodePtr LeftofLeftLeaf = leftLeaf->leaves[0];
+    //Swap operations
+    currentParent->leaves[1] = LeftofLeftLeaf;
+    leftLeaf->leaves[0] = currentParent;
+    *parent = leftLeaf;
+
+    //Balance factor Operations
+    if(leftLeaf->balanceFactor == 0){
+        leftLeaf->balanceFactor= -1;
+        currentParent->balanceFactor = 1;
+
+    }else{
+        leftLeaf->balanceFactor= 0;
+        currentParent->balanceFactor = 0;
+    }
+}
+
+
 void AVLTreeInsert(TreeNodePtr* tree, DataPtr data){
     TreeNodePtr curr = *tree;
-    
-    int compareResult;
-    while(curr!=NULL){
+    ListPtr TraceStack = ListCreate();
 
-    }
     if(curr == NULL){
         *tree = TreeNodeCreate(data);
-    } 
+        return;
+    }
+
+    //TODO: Refactor to handle modularity of Dataptrs
+    //      1) stack support in equality case
+    while(curr!=NULL){
+        ListPush(TraceStack, DataCreate(curr, NullComparator,NullDestroyer));
+        if(DataCompare(curr->data, data) > 0){
+            curr->balanceFactor = curr->balanceFactor-1;
+            curr = curr->leaves[0];
+        }
+        else if (DataCompare(curr->data, data)) {
+            curr->balanceFactor = curr->balanceFactor+1;
+            curr = curr->leaves[1];
+        }
+        else{ 
+            //Already in tree case. 
+            return;
+        }
+    }
+    curr = TreeNodeCreate(data);
+
+
+
 
 }
 void AVLTreeDelete(TreeNodePtr* tree, DataPtr data){
@@ -119,3 +180,4 @@ void AVLTreeDelete(TreeNodePtr* tree, DataPtr data){
     if( curr == NULL ) return;
 
 }
+
